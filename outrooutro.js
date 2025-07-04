@@ -226,8 +226,13 @@ var treinoUL = `
 </table>
 `;
 
+var treinos = ["ABCD", "ABCDE", "PPL", "UL"];
 
 var genero = "";
+
+var nome = "";
+
+var cookie = false;
 
 function funcao() {
     const iniciar = document.getElementById("iniciar");
@@ -235,11 +240,45 @@ function funcao() {
     iniciar.style.display = "none";
     const trembolona = document.getElementById("trembolona");
     trembolona.innerHTML = `
-    <p>Escolha seu gênero:</p>
-    <button onclick="guardarGenero('masc')">masculino</button>
-    <button onclick="guardarGenero('fem')">feminino</button>`;
+    <p>escreva seu nome:</p>
+    <input class="nah" type="text" placeholder="escreva seu nome"></input>
+    <button onclick='funcao2()'>salvar</button>`;
 }
 
+function funcao2() {
+    if (cookie) {
+        console.log("Cookie já existe, não é necessário salvar novamente.");
+    }
+    else {
+        const input = document.querySelector(".nah");
+        nome = input.value;
+    }
+    if (nome === "") {
+        alert("Por favor, escreva seu nome.");
+    }
+    else {
+    localStorage.setItem("nome", nome);
+    const iniciar = document.getElementById("iniciar");
+    iniciar.innerHTML = "";
+    iniciar.style.display = "none";
+    const trembolona = document.getElementById("trembolona");
+    trembolona.innerHTML = `
+    <p>${nome}, escolha seu gênero:</p>
+    <button onclick="guardarGenero('masc')">masculino</button>
+    <button onclick="guardarGenero('fem')">feminino</button>`;
+    }
+}
+
+const iniciar = document.getElementById("iniciar");
+
+if (localStorage.getItem("nome")) {
+    nome = localStorage.getItem("nome");
+    iniciar.addEventListener("click", funcao2);
+    cookie = true;
+}
+else {
+    iniciar.addEventListener("click", funcao);
+}
 function treino(t) {
     console.log("Treino selecionado: " + t);
     const trembolona = document.getElementById("trembolona");
@@ -249,7 +288,7 @@ function treino(t) {
     switch (t) {
         case "ABCD":
             trembolona.innerHTML = `
-            <p>Treino ABCD:</p>
+            <p>Treino ${treinos[0]}:</p>
             <div class="div_treino">
             ${treinoD}
             </div>
@@ -260,7 +299,7 @@ function treino(t) {
             break;
         case "ABCDE":
             trembolona.innerHTML = `
-            <p>Treino ABCDE:</p>
+            <p>Treino ${treinos[1]}:</p>
             <div class="div_treino">
             ${treinoE}
             </div>
@@ -271,7 +310,7 @@ function treino(t) {
             break;
         case "PPL":
             trembolona.innerHTML = `
-            <p>Treino PPL:</p>
+            <p>Treino ${treinos[2]}:</p>
             <div class="div_treino">
             ${treinoPPL} 
             </div>
@@ -282,7 +321,7 @@ function treino(t) {
             break;
         case "UL":
             trembolona.innerHTML = `
-            <p>Treino UL:</p>
+            <p>Treino ${treinos[3]}:</p>
             <div class="div_treino">
             ${treinoUL}
             </div>
